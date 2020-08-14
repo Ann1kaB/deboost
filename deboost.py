@@ -26,17 +26,12 @@ def boost_enable():
 proc = subprocess.Popen(sys.argv[1])
 
 def boost_disable():
-    if os.path.isdir("/var/lib/optimus-manager"):
-        f=open("/var/lib/optimus-manager/tmp/state.json", 'r').read().split("}")[0].split("\"")[11]
-        if f != "igpu" and cputype == "AuthenticAMD":
-            f=open(amdboostpath, 'w')
-            f.write("0")
-        elif f != "igpu" and cputype == "GenuineIntel":
-            f=open(intelboostpath, 'w')
-            f.write("0")
-    else:
-        print("Switch to hybrid/nvidia mode.")
-        sys.exit(1)
+    if cputype == "AuthenticAMD":
+        f=open(amdboostpath, 'w')
+        f.write("0")
+    elif cputype == "GenuineIntel":
+        f=open(intelboostpath, 'w')
+        f.write("0")
 try:
     while proc:
         boost_disable()
